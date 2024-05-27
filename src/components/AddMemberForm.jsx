@@ -1,12 +1,23 @@
 import { useState } from "react"
+import axios from "axios";
 import { 
   Box,
   Checkbox,
   FormControlLabel,
   FormGroup,
   TextField,
-  FormLabel
+  FormLabel,
+  Button
 } from "@mui/material"
+
+const addMember = async memberData => {
+  try {
+    const res = await axios.post('http://localhost:4444/members', memberData);
+
+  } catch(err) {
+    console.log('ERROR', err)
+  }
+}
 
 export default function AddMemberForm({}) {
 
@@ -14,9 +25,9 @@ export default function AddMemberForm({}) {
   const [age, setAge] = useState("")
   const [rating, setRating] = useState("")
   const [activities, setActivities] = useState({
-    biking: false,
-    running: false,
-    hiking: false
+    Biking: false,
+    Running: false,
+    Hiking: false
   })
 
   const onNameChange = event => {
@@ -53,7 +64,7 @@ export default function AddMemberForm({}) {
         checked = {checked}
         onChange = {handleChange}
         inputProps={{ 'aria-label': 'controlled'}}
-        id = {name.toLowerCase()}
+        id = {name}
       />
     )
 
@@ -65,6 +76,14 @@ export default function AddMemberForm({}) {
     )
   }
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+
+    // Get truthy activity keys and uppercase the name
+    const selectedActivities = Object.keys(activities).filter(key => !!activities[key])
+
+    addMember({ name, age, rating, selectedActivities })
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -93,22 +112,16 @@ export default function AddMemberForm({}) {
 
       <FormGroup>
         <FormLabel component="legend">Activities</FormLabel>
-        <LabelledCheckbox
-          name="Biking"
-          checked={activities.biking}
-          handleChange={onActivityChange}
-        />
-        <LabelledCheckbox
-          name="Hiking"
-          checked={activities.hiking}
-          handleChange={onActivityChange}
-        />
-        <LabelledCheckbox
-          name="Running"
-          checked={activities.running}
-          handleChange={onActivityChange}
-        />
+        { Object.keys(activities).map(name => (
+          <LabelledCheckbox
+            name={name}
+            checked={activities[name]}
+            handleChange={onActivityChange}
+
+          />
+        ))}
       </FormGroup>
+      <Button type="submit" onClick={handleSubmit}>Add new member</Button>
     </Box>
   )
 }

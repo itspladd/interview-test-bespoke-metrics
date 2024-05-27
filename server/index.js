@@ -40,7 +40,8 @@ app.get('/members', (req, res) => {
  */
 app.post('/members', (req, res) => {
   console.log('POST /members');
-  const body = req.body.body;
+  const body = req.body;
+
   if (body) {
     if (!body.name) {
       res.send('Name is required');
@@ -48,7 +49,6 @@ app.post('/members', (req, res) => {
     }
     members.push({
       id: randomNumber,
-      activities: [],
       ...body
     });
   }
