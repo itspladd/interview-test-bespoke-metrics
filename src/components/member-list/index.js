@@ -1,25 +1,8 @@
 import React, { useState, useEffect } from "react";
-import axios from 'axios';
 import styled from 'styled-components';
 import AddMemberForm from "../AddMemberForm";
 
-const getData = async setMembers => {
-  try {
-    const res = await axios.get('http://localhost:4444/members');
-    setMembers(res.data);
-  } catch(err)  {
-    console.log('ERROR', err);
-  }
-};
-
-const addMember = async memberData => {
-  try {
-    const res = await axios.post('http://localhost:4444/members', memberData);
-
-  } catch(err) {
-    console.log('ERROR', err)
-  }
-}
+import { getData } from '../../api'
 
 const Block = styled.div`
   display: flex;
@@ -101,7 +84,7 @@ const MemberList = () => {
       <Filters>
         <SearchBar />
       </Filters>
-      <AddMemberForm />
+      <AddMemberForm setMembers={setMembers} />
       <Table>
         <Thead>
           <tr>

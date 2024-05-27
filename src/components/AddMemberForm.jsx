@@ -1,5 +1,4 @@
 import { useState } from "react"
-import axios from "axios";
 import { 
   Box,
   Checkbox,
@@ -10,16 +9,9 @@ import {
   Button
 } from "@mui/material"
 
-const addMember = async memberData => {
-  try {
-    const res = await axios.post('http://localhost:4444/members', memberData);
+import { addMember, getData } from "../api"
 
-  } catch(err) {
-    console.log('ERROR', err)
-  }
-}
-
-export default function AddMemberForm({}) {
+export default function AddMemberForm({ setMembers }) {
 
   const [name, setName] = useState("")
   const [age, setAge] = useState("")
@@ -82,7 +74,7 @@ export default function AddMemberForm({}) {
     // Get truthy activity keys and uppercase the name
     const selectedActivities = Object.keys(activities).filter(key => !!activities[key])
 
-    addMember({ name, age, rating, selectedActivities })
+    addMember({ name, age, rating, activities: selectedActivities }, setMembers)
   }
 
   return (

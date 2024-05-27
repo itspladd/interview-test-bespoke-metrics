@@ -41,7 +41,6 @@ app.get('/members', (req, res) => {
 app.post('/members', (req, res) => {
   console.log('POST /members');
   const body = req.body;
-
   if (body) {
     if (!body.name) {
       res.send('Name is required');
