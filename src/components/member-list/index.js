@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import AddMemberForm from "../AddMemberForm";
-
+import MemberRow from "../MemberRow";
 import { getData } from '../../api'
 
 const Block = styled.div`
@@ -46,29 +46,11 @@ const TH = styled.th`
   text-align: center;
 `;
 
-const Cell = styled.td`
-  padding: 0.5rem;
-  text-align: center;
-`;
-
 export const SearchBar = () => (
   <Input
     type="text"
     placeholder="Search for a member"
   />
-);
-
-export const Row = ({ id, age, name, activities, rating }) => (
-  <tr key={id}>
-    <Cell>{name}</Cell>
-    <Cell>{age}</Cell>
-    <Cell>{rating}</Cell>
-    <Cell>
-      {activities.map((activity, i) => (
-        <div key={i}>{activity}</div>
-      ))}
-    </Cell>
-  </tr>
 );
 
 const MemberList = () => {
@@ -96,7 +78,7 @@ const MemberList = () => {
         </Thead>
         <tbody>
           {members.map((member) => (
-            <Row {...member} key={member.id} />
+            <MemberRow {...member} key={member.id} />
           ))}
         </tbody>
       </Table>
