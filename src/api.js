@@ -20,3 +20,14 @@ export const addMember = async (memberData, setMembers) => {
     console.log('ERROR', err)
   }
 }
+
+// Add a member and then perform an optional action
+export const updateMember = async (memberData, setMembers) => {
+  try {
+    const res = await axios.patch(`http://localhost:4444/members/${memberData.id}`, memberData);
+    
+    getData(setMembers)
+  } catch(err) {
+    console.log('ERROR', err)
+  }
+}

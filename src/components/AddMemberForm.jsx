@@ -1,75 +1,34 @@
-import { useState } from "react"
 import { 
   Box,
-  Checkbox,
-  FormControlLabel,
   FormGroup,
   TextField,
   FormLabel,
   Button
 } from "@mui/material"
 
-import { addMember, getData } from "../api"
+import { addMember } from "../api"
+import useMemberState from "../hooks/useMemberState"
+
+import LabelledCheckbox from "./LabelledCheckbox"
 
 export default function AddMemberForm({ setMembers }) {
 
-  const [name, setName] = useState("")
-  const [age, setAge] = useState("")
-  const [rating, setRating] = useState("")
-  const [activities, setActivities] = useState({
-    Biking: false,
-    Running: false,
-    Hiking: false
-  })
+  const {
+    member,
+    onNameChange,
+    onAgeChange,
+    onRatingChange,
+    onActivityChange
+  } = useMemberState({})
 
-  const onNameChange = event => {
-    setName(event.target.value)
-  }
-
-  const onAgeChange = event => {
-    setAge(event.target.value)
-  }
-
-  const onRatingChange = event => {
-    setRating(event.target.value)
-  }
-
-  const onActivityChange = event => {
-
-    const prevValue = activities[event.target.id]
-
-    setActivities(prev => {
-      return {
-        ...prev,
-        [event.target.id]: !prevValue 
-      }
-    })
-    console.log(event.target.value)
-    console.log(event.target.id)
-  }
-
+  const { name, age, rating, activities } = member
   // Generic controlled checkbox component with label
-  const LabelledCheckbox = ({ name, checked, handleChange }) => {
 
-    const CheckboxComponent = (
-      <Checkbox
-        checked = {checked}
-        onChange = {handleChange}
-        inputProps={{ 'aria-label': 'controlled'}}
-        id = {name}
-      />
-    )
-
-    return (
-      <FormControlLabel
-        label = {name}
-        control={CheckboxComponent}
-      />
-    )
-  }
 
   const handleSubmit = (event) => {
     event.preventDefault()
+
+    const { name, age, rating, activities } = member
 
     // Get truthy activity keys and uppercase the name
     const selectedActivities = Object.keys(activities).filter(key => !!activities[key])
@@ -109,7 +68,6 @@ export default function AddMemberForm({ setMembers }) {
             name={name}
             checked={activities[name]}
             handleChange={onActivityChange}
-
           />
         ))}
       </FormGroup>
