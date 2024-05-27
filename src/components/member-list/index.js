@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import styled from 'styled-components';
+import AddMemberForm from "../AddMemberForm";
 
 const getData = async setMembers => {
   try {
@@ -10,6 +11,15 @@ const getData = async setMembers => {
     console.log('ERROR', err);
   }
 };
+
+const addMember = async memberData => {
+  try {
+    const res = await axios.post('http://localhost:4444/members', memberData);
+
+  } catch(err) {
+    console.log('ERROR', err)
+  }
+}
 
 const Block = styled.div`
   display: flex;
@@ -91,6 +101,7 @@ const MemberList = () => {
       <Filters>
         <SearchBar />
       </Filters>
+      <AddMemberForm />
       <Table>
         <Thead>
           <tr>
